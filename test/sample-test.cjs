@@ -33,9 +33,9 @@ describe("NFTMarketplace contract", function () {
 
     await marketplace.waitForDeployment();
 
-    console.log("marketplace:", marketplace);
+    
 
-    console.log("Marketplace deployed to:", marketplace.address);
+    
 
     // Fixtures can return anything you consider useful for your tests
     return { marketplace, owner, addr1, addr2 };
@@ -48,17 +48,20 @@ describe("NFTMarketplace contract", function () {
     // things went well
     const { marketplace, owner } = await loadFixture(deployMarketplaceFixture);
 
-    console.log("marketplace:", marketplace);
+    console.log("Marketplace deployed to:", marketplace.target);
+    console.log('owner:', owner);
 
     // `expect` receives a value and wraps it in an assertion object. These
     // objects have a lot of utility methods to assert values.
 
     // This test expects the owner variable stored in the contract to be
     // equal to our Signer's owner.
-    expect(await marketplace.owner()).to.equal(owner.address);
+    expect(await marketplace.owner.to.equal(owner.address));
   });
 
   it("Should update the listing price", async function () {
+
+    const { marketplace, owner } = await loadFixture(deployMarketplaceFixture);
     const newListingPrice = ethers.parseEther("0.05");
     await marketplace.updateListingPrice(newListingPrice);
     expect(await marketplace.getListingPrice()).to.equal(newListingPrice);
